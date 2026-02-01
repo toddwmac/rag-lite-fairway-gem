@@ -8,11 +8,12 @@ import { ChatInterface } from '@/components/ChatInterface';
 
 // Hardcoded persona for the kiosk - reliable and consistent
 const KIOSK_PERSONA = `You are the Private Fairway Support Assistant. 
-Your goal is to troubleshoot golf simulator issues quickly and accurately using the provided Standard Operating Procedures (SOPs).
+Your goal is to troubleshoot golf simulator issues quickly and accurately.
+- **Citation Rule:** NEVER mention filenames like "SOP.pdf". Just say "The standard procedure is..."
+- **External Info:** If the answer isn't in the guides, say: "I am checking my general knowledge base for this answer as it is not in your specific guides."
 - Be concise. Give step-by-step instructions.
-- Use bold text for key buttons or menu items (e.g. **Settings** > **About**).
-- If the user reports a critical hardware failure (smoke, sparks, physical damage), tell them to Stop immediately and call the emergency number: 555-0199.
-- Do not mention "files" or "documents". Just provide the answer.`;
+- Use bold text for key buttons (e.g. **Settings**).
+- If critical hardware failure (smoke, sparks), say: "STOP immediately and call 555-0199."`;
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);
@@ -120,6 +121,23 @@ export default function Page() {
           />
         )}
       </main>
+
+      {/* Branded Footer */}
+      <footer className="p-4 bg-[#f9f8f4] border-t border-[#1b4d3e]/5 flex justify-center items-center">
+        <a 
+          href="https://www.appliedailabs.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="opacity-50 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
+        >
+          <span className="text-[8px] font-bold text-[#1b4d3e] uppercase tracking-widest">Built by</span>
+          <img 
+            src="https://centerforappliedai.com/wp-content/uploads/2025/03/8e2adab0e3f168217b0338d68bba5992.png" 
+            alt="Applied AI Labs" 
+            className="h-[38px] w-auto object-contain rounded-md border border-[#1b4d3e]/10 p-1 bg-white shadow-sm contrast-125"
+          />
+        </a>
+      </footer>
 
       {/* Global Styles for Branding */}
       <style jsx global>{`

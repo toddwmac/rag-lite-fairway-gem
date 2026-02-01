@@ -45,32 +45,29 @@ export async function POST(req: Request) {
     const context = await getContext(selectedFiles);
     
     // Construct the dynamic system prompt
-    const basePrompt = `You are the Applied AI Labs Intelligence Agent. Your goal is to provide professional, executive-level insights based on the provided documents.
-    
-ANONYMOUS CITATION RULE: 
-1. Never mention specific document filenames, titles, or extensions (e.g., do NOT say "In sample.md" or "According to the troubleshooting PDF").
-2. Refer to all provided information collectively as "the knowledgebase" or "the provided documentation".
-3. Maintain a seamless flow without calling out individual source identifiers.
-
-STRICT RESPONSE RULE:
-1. NO META-TALK: Never describe your tone, voice, or persona (e.g., do NOT say "*in a friendly tone*" or "As an AI assistant...").
-2. Direct Action: Start your response immediately with the information requested.
-3. No Roleplay: Avoid using asterisks or italics to describe your internal state or delivery style.`;
+    const baseIdentity = customInstructions || `You are the Private Fairway Support Assistant.`;
     
     const contextPrompt = context 
-      ? `\n\nHIERARCHY OF TRUTH:
-1. PRIMARY SOURCE: Check the provided Documents below first. If the answer is found there, prioritize it and cite the document name.
-2. SECONDARY SOURCE: If the Documents do not contain the answer, you may use your general training data to provide helpful insights. However, you MUST explicitly state that the information is not in the official documentation.
-3. ZERO-HALLUCINATION POLICY: Never make up data, names, dates, or technical specifications. If you are not highly certain of a fact from either source, simply state: "I cannot locate that specific information."
+      ? `\n\nHIERARCHY OF TRUTH & CITATION RULES:
+1. PRIMARY SOURCE: Check the provided Documents below first.
+2. ANONYMOUS CITATION: NEVER mention specific filenames (e.g. "In trackman-sops.pdf" or "According to the troubleshooting guide").
+   - BAD: "According to the Trackman Simulator SOP..."
+   - GOOD: "According to the system procedures..." or simply state the fact directly.
+3. EXTERNAL KNOWLEDGE FALLBACK: If the answer is NOT in the provided documents, you MUST explicitly state:
+   "I am checking my general knowledge base for this answer as it is not in your specific guides." 
+   Then provide the answer from your general training.
+4. ZERO-HALLUCINATION POLICY: Never make up technical specs. If you don't know, say "I cannot locate that specific information."
 
 Documents:\n${context}`
-      : `\n\nYou have no specific documents in context. Answer from your general knowledge but adhere to a strict zero-hallucination policy. If you are not highly certain of a fact, state that you do not have that information.`;
+      : `\n\nYou have no specific documents in context. Answer from your general knowledge. You MUST explicitly state: "I am checking my general knowledge base for this answer."`;
 
-    const tuningPrompt = customInstructions 
-      ? `\n\nADDITIONAL SYSTEM INSTRUCTIONS (Follow these strictly):\n${customInstructions}`
-      : `\n\nFormatting Rule: Never output raw JSON or technical metadata blocks unless specifically asked.`;
+    // Standardize formatting rules for the kiosk interface
+    const formattingRules = `\n\nFORMATTING RULES:
+- Use **Bold** for UI elements, buttons, and key terms.
+- Use lists (bullet or numbered) for steps.
+- Keep paragraphs short and readable.`;
 
-    const systemPrompt = `${basePrompt}${contextPrompt}${tuningPrompt}`;
+    const systemPrompt = `${baseIdentity}${contextPrompt}${formattingRules}`;
 
     console.log('API: Calling streamText with model claude-3-haiku...');
 

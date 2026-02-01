@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Send, User, Loader2, Bot } from 'lucide-react';
 import { Message } from 'ai/react';
+import ReactMarkdown from 'react-markdown';
 
 interface ChatInterfaceProps {
   messages: Message[];
@@ -47,12 +48,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {m.role === 'user' ? <User size={20} /> : <Bot size={20} />}
             </div>
             
-            <div className={`max-w-[85%] px-6 py-5 rounded-3xl text-base leading-relaxed shadow-sm whitespace-pre-wrap ${
+            <div className={`max-w-[85%] px-6 py-5 rounded-3xl text-base leading-relaxed shadow-sm ${
               m.role === 'user' 
                 ? 'bg-[#1b4d3e] text-white rounded-tr-none' 
                 : 'bg-white text-[#1a1a1a] border border-[#1b4d3e]/10 rounded-tl-none'
             }`}>
-              {m.content}
+              <ReactMarkdown
+                components={{
+                  strong: ({node, ...props}) => <span className="font-bold text-inherit" {...props} />,
+                  ul: ({node, ...props}) => <ul className="list-disc pl-5 space-y-2 my-2" {...props} />,
+                  ol: ({node, ...props}) => <ol className="list-decimal pl-5 space-y-2 my-2" {...props} />,
+                  li: ({node, ...props}) => <li className="pl-1" {...props} />,
+                  p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                  a: ({node, ...props}) => <a className="underline font-semibold hover:text-[#c5a059]" target="_blank" rel="noopener noreferrer" {...props} />,
+                }}
+              >
+                {m.content}
+              </ReactMarkdown>
             </div>
           </div>
         ))}
