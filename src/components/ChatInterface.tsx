@@ -4,7 +4,7 @@ import { Message } from 'ai/react';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatInterfaceProps {
-  messages: Message[];
+  messages: any[];
   isLoading: boolean;
   input: string;
   onInputChange: (value: string) => void;
