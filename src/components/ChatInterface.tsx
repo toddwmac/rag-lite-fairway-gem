@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Send, User, Loader2, Bot } from 'lucide-react';
+import { Send, User, Loader2, Bot, RotateCcw } from 'lucide-react';
 import { Message } from 'ai/react';
 import ReactMarkdown from 'react-markdown';
 
@@ -9,6 +9,7 @@ interface ChatInterfaceProps {
   input: string;
   onInputChange: (value: string) => void;
   onSubmit: (e?: React.FormEvent) => void;
+  onReset: () => void;
 }
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({ 
@@ -16,7 +17,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   isLoading, 
   input, 
   onInputChange, 
-  onSubmit 
+  onSubmit,
+  onReset
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -101,6 +103,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             className="p-4 bg-[#1b4d3e] text-[#c5a059] rounded-xl hover:bg-[#143d31] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-95"
           >
             {isLoading ? <Loader2 size={24} className="animate-spin" /> : <Send size={24} />}
+          </button>
+          
+          <button
+            type="button"
+            onClick={onReset}
+            className="flex items-center gap-2 p-4 bg-white border-2 border-[#1b4d3e]/20 text-[#1b4d3e] rounded-xl font-bold uppercase text-xs hover:border-[#c5a059] hover:text-[#c5a059] transition-all shadow-sm active:scale-95"
+            title="Start New Conversation"
+          >
+            <RotateCcw size={20} />
+            <span className="hidden sm:inline">New Conversation</span>
           </button>
         </form>
       </div>

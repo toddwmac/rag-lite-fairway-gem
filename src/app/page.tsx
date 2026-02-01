@@ -86,7 +86,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col h-screen bg-[#f9f8f4] font-sans text-[#1a1a1a]">
-      <KioskHeader onReset={handleReset} />
+      <KioskHeader />
 
       <main className="flex-1 flex flex-col overflow-hidden relative">
         {/* If chat is empty, show the Quick Actions Menu */}
@@ -121,6 +121,7 @@ export default function Page() {
             input={input}
             onInputChange={setInput}
             onSubmit={handleSubmit}
+            onReset={handleReset}
           />
         )}
       </main>
