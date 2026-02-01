@@ -1,6 +1,6 @@
 # Private Fairway: Member Support Kiosk
 
-**Version**: 2.0 (Kiosk Edition)
+**Version**: 2.1 (Optimized Kiosk)
 **Status**: Live / Production Ready
 **Powered By**: Next.js 16, Vercel AI SDK, Claude 3 Haiku
 
@@ -11,17 +11,18 @@ The interface is optimized for **tablets/touchscreens** and prioritizes speed an
 
 ## Key Features
 *   **Quick Action Grid**: One-tap buttons for the top 6 most common issues (Projector, Connection, Shots, etc.).
-*   **Auto-Context RAG**: Automatically injects all available troubleshooting SOPs (PDFs, Text) into the AI context. No file selection required.
+*   **Auto-Context RAG**: Automatically injects facility Standard Operating Procedures (SOPs) into the AI context.
 *   **Hybrid Intelligence**: 
-    *   *Primary*: Answers strictly from the provided facility SOPs.
+    *   *Primary*: Answers strictly from the provided facility SOPs (`.md` files).
     *   *Fallback*: Uses general knowledge if the issue isn't in the guides (with a strict disclaimer).
+*   **Markdown Optimized**: Knowledge base is stored in clean Markdown for maximum token efficiency and faster Vercel cold starts.
 *   **Kiosk UX**: Large touch targets, simplified inputs, and a "Reset Session" button for the next member.
 
 ## Tech Stack
 *   **Frontend**: Next.js 16 (App Router), Tailwind CSS v4.
 *   **Backend**: Vercel AI SDK streaming response.
 *   **Model**: Anthropic Claude 3 Haiku (Fast, low latency).
-*   **Data Source**: Local `/data` directory containing Markdown and PDF SOPs.
+*   **Data Source**: Local `/data` directory containing Markdown (`.md`) SOPs.
 *   **Styling**: Private Fairway Brand (Deep Green `#1b4d3e`, Gold `#c5a059`).
 
 ## Local Setup

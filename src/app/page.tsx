@@ -63,8 +63,11 @@ export default function Page() {
     if (e) e.preventDefault();
     if (!input.trim() || isLoading) return;
 
+    const currentInput = input;
+    setInput('');
+
     await append({
-      content: input,
+      content: currentInput,
       role: 'user'
     }, {
       body: { 
